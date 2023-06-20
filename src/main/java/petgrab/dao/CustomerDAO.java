@@ -21,7 +21,7 @@ public class CustomerDAO {
     private static final String INSERT_CUSTOMER_SQL = "INSERT INTO customer(username,password,name,email,address,phonenum) VALUES (?,?,?,?,?,?);";
     private static final String SELECT_CUSTOMER_BY_ID = "SELECT id,username,passwords,name,email,address,phonenum FROM customer WHERE id=?";
     private static final String BOOK_ORDER_CUSTOMER = "INSERT INTO orders(custid,shopid,petname,petage,petgender,purposeofvisit,time,date,status) VALUES (?,?,?,?,?,?,?,?,?)";
-    private static final String LOGIN = "SELECT * FROM customer WHERE username=? AND passwords=?";
+    private static final String LIST_ORDER = "SELECT * FROM orders WHERE custid=?";
     private static final String UPDATE_CUSTOMER_SQL = "UPDATE customer SET username=?,passwords=?,name=?,email=?,address=?,phonenum=? WHERE id=?";
 
     public CustomerDAO() {

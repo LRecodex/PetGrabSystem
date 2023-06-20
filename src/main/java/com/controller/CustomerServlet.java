@@ -95,7 +95,7 @@ public class CustomerServlet extends HttpServlet {
         Order order = new Order(custid,shopid,petname,petage,petgender,pov,time,date,status);
         custDAO.insertOderFromCustomer(order);
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("homepage.jsp");     
+        RequestDispatcher dispatcher = request.getRequestDispatcher("paymentPage.jsp");     
         dispatcher.forward(request, response);
     }
     private void showBookForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
