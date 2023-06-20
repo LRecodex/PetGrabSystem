@@ -80,7 +80,11 @@
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="CustomerServlet?action=logout">Logout</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="CustomerServlet?action=showOrder">My Order</a>
+                        </li>
                         </c:if>
+                        
                     </ul>
              
                 </div>

@@ -71,6 +71,9 @@ public class CustomerServlet extends HttpServlet {
                     case "book":
                     insertBooking(request, response);
                     break;
+                    case "showOrder":
+                    showOrder(request, response);
+                    break;
                 default:
                     showHomePage(request, response);
                     break;
@@ -79,6 +82,16 @@ public class CustomerServlet extends HttpServlet {
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
+    }
+    private void showOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        HttpSession session = request.getSession();
+        
+        int custid = (int) session.getAttribute("customersessionid");
+        
+        List <Order> listOrder= custDAO.selectOrderByCustId(custid);
+        request.setAttribute("list", listOrder);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("paymentPage.jsp");     
+        dispatcher.forward(request, response);
     }
     private void insertBooking(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         HttpSession session = request.getSession();

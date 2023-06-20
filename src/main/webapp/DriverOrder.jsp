@@ -55,7 +55,7 @@
                             <th>Order ID</th>
                             <th>Customer ID</th>
                             <th>Driver ID</th>
-                            <th>Service ID</th>
+                            <th>Shop ID</th>
                             <th>Pet Name</th>
                             <th>Pet Age</th>
                             <th>Pet Gender</th>

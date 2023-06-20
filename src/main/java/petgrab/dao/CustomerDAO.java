@@ -11,6 +11,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerDAO {
 
@@ -40,6 +42,39 @@ public class CustomerDAO {
         }
         return connection;
     }
+    
+    public List<Order> selectOrderByCustId(int id) {
+        List<Order> orders = new ArrayList<>();
+
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(LIST_ORDER)) {
+            ps.setInt(1,id);
+            
+            System.out.println(ps);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+                
+                int custid = rs.getInt("custid");
+                int driverid = rs.getInt("driverid");
+                int shopid = rs.getInt("shopid");
+                String petname = rs.getString("petname");
+                String petage = rs.getString("petage");
+                String petgender = rs.getString("petgender");
+                String purposeofvisit = rs.getString("purposeofvisit");
+                String time = rs.getString("time");
+                String date = rs.getString("date");
+                String status = rs.getString("status");
+                byte picture = rs.getByte("picture");
+                orders.add(new Order(id,custid, driverid, shopid, petname, petage,petgender,purposeofvisit,time,date,status,picture));
+                
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+    
     public void insertOderFromCustomer(Order order) throws SQLException {
         System.out.println(BOOK_ORDER_CUSTOMER);
 

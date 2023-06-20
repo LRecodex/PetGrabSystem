@@ -19,6 +19,22 @@ public class Order {
 
     }
 
+    public Order(int orderid, int custid, int driverid, int shopid, String petname, String petage, String petgender, String purposeofvisit, String time, String date, String status, byte picture) {
+        this.orderid = orderid;
+        this.custid = custid;
+        this.driverid = driverid;
+        this.shopid = shopid;
+        this.petname = petname;
+        this.petage = petage;
+        this.petgender = petgender;
+        this.purposeofvisit = purposeofvisit;
+        this.time = time;
+        this.date = date;
+        this.status = status;
+        this.picture = picture;
+    }
+
+    
     public Order(int custid, int shopid, String petname, String petage, String petgender, String purposeofvisit, String time, String date, String status) {
         this.custid = custid;
         this.shopid = shopid;
@@ -32,6 +48,20 @@ public class Order {
 
     }
 
+    public Order( int custid, int driverid, int shopid, String petname, String petage, String petgender, String purposeofvisit,String time,String date,String status, byte picture) {
+        
+        this.custid = custid;
+        this.driverid = driverid;
+        this.shopid = shopid;
+        this.petname = petname;
+        this.petage = petage;
+        this.petgender = petgender;
+        this.purposeofvisit = purposeofvisit;
+        this.time = time;
+        this.date = date;
+        this.status = status;
+        this.picture = picture;
+    }
     public Order(int orderid, int custid, int driverid, int shopid, String petname, String petage, String petgender, String purposeofvisit, String status, byte picture) {
         this.orderid = orderid;
         this.custid = custid;
