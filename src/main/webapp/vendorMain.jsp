@@ -106,7 +106,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="vendorAccount.jsp">
+                        <a href="VendorServlet?action=edit">
                             <i class="fas fa-user"></i>
                             <span class="nav-text">Account</span>
                         </a>

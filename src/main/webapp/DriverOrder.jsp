@@ -85,7 +85,7 @@
                             <td><c:out value="${order.date}"/></td>
                             <td><c:out value="${order.status}"/></td>
                             <td><img src="path_to_image.jpg" alt="Pet Picture" width="100"></td>
-                            <td><a href="DriverController?action=accept&orderid=<c:out value='${order.orderid}'/>&driverid=<c:out value='${sesi.driverid}'/>" >Accept</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <td><a href="DriverController?action=accept&orderid=<c:out value='${order.orderid}'/>&driverid=<c:out value='${account.driverid}'/>" >Accept</a>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <a href="DriverController?action=decline&orderid=<c:out value='${order.orderid}'/>" >Decline</a></td>
                         </tr>
                         </c:forEach>

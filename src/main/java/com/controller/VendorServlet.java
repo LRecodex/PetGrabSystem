@@ -123,10 +123,12 @@ public class VendorServlet extends HttpServlet {
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        PetShop vendor = petShopDAO.selectPetshop(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("vendorForm.jsp");
+        HttpSession session = request.getSession();
+              
+        int shopid = (int) session.getAttribute("petsessionid");        
+        PetShop vendor = petShopDAO.selectPetshop(shopid);
         request.setAttribute("vendor", vendor);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("vendorAccount.jsp");       
         dispatcher.forward(request, response);
     }
 
@@ -143,17 +145,16 @@ public class VendorServlet extends HttpServlet {
     }
 
     private void updateVendor(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("shopid"));
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String shopname = request.getParameter("shopname");
         String shopaddress = request.getParameter("shopaddress");
         String phonenum = request.getParameter("phonenum");
-        byte imagepetshop = Byte.parseByte(request.getParameter("shopimage"));
-
-        PetShop petshop = new PetShop(username, password, shopname, shopaddress, phonenum);
+        
+        PetShop petshop = new PetShop(id,username, password, shopname, shopaddress, phonenum);
         petShopDAO.update(petshop);
-        response.sendRedirect("list");
+        response.sendRedirect("vendorAccount.jsp");
     }
 
     private void deleteVendor(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {

@@ -33,8 +33,8 @@ public class DriverDAO {
     private final String SELECT_BY_ID = "SELECT * FROM driver WHERE driverid=?";
     private final String SELECT_ALL_DRIVER = "SELECT * FROM driver";
     private final String VERIFY_LOGIN = "SELECT * FROM driver WHERE username = ? AND password = ?";
-    private static final String UPDATE_STATUS_ACCEPT = "UPDATE orders SET status='Order Accepted',driverid=?  WHERE orderid=?";
-    private static final String UPDATE_STATUS_DECLINE = "UPDATE orders SET status='Declined'  WHERE orderid=?";
+    private final String UPDATE_STATUS_ACCEPT = "UPDATE orders SET status='Order Accepted',driverid=?  WHERE orderid=?";
+    private final String UPDATE_STATUS_DECLINE = "UPDATE orders SET status='Declined'  WHERE orderid=?";
 
     //Create Connection
     public Connection getConnection() {

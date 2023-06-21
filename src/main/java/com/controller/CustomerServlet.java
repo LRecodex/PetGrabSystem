@@ -176,9 +176,11 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        HttpSession session = request.getSession();
+        
+        int id = (int)session.getAttribute("customersessionid");
         Customer existingCustomer = custDAO.selectCustomer(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("CustomerForm.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("customerForm.jsp");
         request.setAttribute("Customer", existingCustomer);
         dispatcher.forward(request, response);
     }
@@ -196,12 +198,16 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void updateCustomer(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("custid"));
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
         String name = request.getParameter("name");
         String email = request.getParameter("email");
-        String position = request.getParameter("position");
-
-        response.sendRedirect("list");
+        String address = request.getParameter("address");
+        String phonenum = request.getParameter("phonenum");
+        Customer cust = new Customer(id,username,password,name,email,address,phonenum);
+        custDAO.updateCustomer(cust);
+        response.sendRedirect("customerForm.jsp");
     }
 
     @Override

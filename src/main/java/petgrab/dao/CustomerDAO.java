@@ -24,7 +24,7 @@ public class CustomerDAO {
     private static final String SELECT_CUSTOMER_BY_ID = "SELECT id,username,passwords,name,email,address,phonenum FROM customer WHERE id=?";
     private static final String BOOK_ORDER_CUSTOMER = "INSERT INTO orders(custid,shopid,petname,petage,petgender,purposeofvisit,time,date,status) VALUES (?,?,?,?,?,?,?,?,?)";
     private static final String LIST_ORDER = "SELECT * FROM orders WHERE custid=?";
-    private static final String UPDATE_CUSTOMER_SQL = "UPDATE customer SET username=?,passwords=?,name=?,email=?,address=?,phonenum=? WHERE id=?";
+    private static final String UPDATE_CUSTOMER_SQL = "UPDATE customer SET username=?,password=?,name=?,email=?,address=?,phonenum=? WHERE custid=?";
 
     public CustomerDAO() {
     }
@@ -154,7 +154,7 @@ public class CustomerDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                String username = rs.getString("name");
+                String username = rs.getString("username");
                 String password = rs.getString("password");
                 String name = rs.getString("name");
                 String email = rs.getString("email");
