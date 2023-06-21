@@ -14,76 +14,50 @@
 
     </head>
     <body>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiasry bg-success">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">PetGrab</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Get Started!
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="customerForm.jsp">Sign up</a></li>
-                                <li><a class="dropdown-item" href="customerForm.jsp">Log in</a></li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
-                </div>
-            </div>
-        </nav>
-        <!-- End Navbar -->
+        <jsp:include page="navbar.jsp"/>
         <br><br>
         <!-- Start Content -->
-        <div class="container">
+        <div class="container col-md-5">
             <div class="card">
-                <div class="card-body col-md-6">
+                
 
                     <c:if test="${vendor ==null}">
-                        <form class="form-control mb-3" action="insert">                      
+                        <form class="form-control mb-3" action="VendorServlet">  
+                            <input value="insert" name="action" type="hidden">
                             <h1>Create Vendor</h1>
                         </c:if>
                         <c:if test="${vendor !=null}">
                             <form class="form-control mb-3" action="update">                      
                                 <h1>Update Vendor</h1>
                             </c:if>
-                                <input type="hidden" name="id">
+                                
                             <div class="mb-3">
-                                <label class="form-label">Name</label>
-                                <input type="text" name="name" class="form-control" placeholder="Service Name">
+                                <label class="form-label">Username</label>
+                                <input type="text" name="username" class="form-control" placeholder="Service Name">
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label">Phone</label>
-                                <input type="text" class="form-control" name="phone" placeholder="Phone No:0124468899">
+                                <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password" name="password" class="form-control" placeholder="Enter your password">
                             </div>
+                                <div class="mb-3">
+                                <label class="form-label">Shop Name</label>
+                                <input type="text" name="shopname" class="form-control" placeholder="Service Name">
+                            </div>
+                            
                             <div class="mb-3">
                                 <label class="form-label ">Address</label>
-                                <input type="text" class="form-control" name="address" placeholder="Enter your address">
+                                <input type="text" class="form-control" name="shopaddress" placeholder="Enter your address">
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label ">Email address</label>
-                                <input type="email" class="form-control" name="email" placeholder="name@example.com">
+                                <div class="mb-3">
+                                <label class="form-label">Phone</label>
+                                <input type="text" class="form-control" name="phonenum" placeholder="Phone No:0124468899">
                             </div>
+                                                        
                                 <button type="submit" class="btn btn-success">Save</button>
                                 <button type="reset" class="btn btn-success">Cancel</button>
                         </form>
 
-                </div>
+                
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>

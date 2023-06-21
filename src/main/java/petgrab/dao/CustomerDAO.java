@@ -53,7 +53,7 @@ public class CustomerDAO {
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
-                
+                int orderid = rs.getInt("orderid");
                 int custid = rs.getInt("custid");
                 int driverid = rs.getInt("driverid");
                 int shopid = rs.getInt("shopid");
@@ -65,7 +65,7 @@ public class CustomerDAO {
                 String date = rs.getString("date");
                 String status = rs.getString("status");
                 byte picture = rs.getByte("picture");
-                orders.add(new Order(id,custid, driverid, shopid, petname, petage,petgender,purposeofvisit,time,date,status,picture));
+                orders.add(new Order(orderid,custid, driverid, shopid, petname, petage,petgender,purposeofvisit,time,date,status,picture));
                 
             }
 

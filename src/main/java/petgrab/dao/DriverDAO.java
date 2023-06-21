@@ -33,6 +33,8 @@ public class DriverDAO {
     private final String SELECT_BY_ID = "SELECT * FROM driver WHERE driverid=?";
     private final String SELECT_ALL_DRIVER = "SELECT * FROM driver";
     private final String VERIFY_LOGIN = "SELECT * FROM driver WHERE username = ? AND password = ?";
+    private static final String UPDATE_STATUS_ACCEPT = "UPDATE orders SET status='Order Accepted',driverid=?  WHERE orderid=?";
+    private static final String UPDATE_STATUS_DECLINE = "UPDATE orders SET status='Declined'  WHERE orderid=?";
 
     //Create Connection
     public Connection getConnection() {
@@ -46,6 +48,23 @@ public class DriverDAO {
         return con;
     }
 
+    public void acceptOrder(int driverid,int orderid) {
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(UPDATE_STATUS_ACCEPT)) {                      
+            ps.setInt(1, driverid);
+            ps.setInt(2, orderid);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+     public void declineOrder(int id) {
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(UPDATE_STATUS_DECLINE)) {           
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     //Add Driver
     public boolean AddDriver(Driver driver) {
         boolean status = false;

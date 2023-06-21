@@ -10,7 +10,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Pet Grab Driver</title>
+        <title>Pet Grab Vendor</title>
 
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -31,7 +31,7 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                background-color: #f5f5f5;
+                background-color: yellow;
                 overflow-x: hidden;
                 padding-top: 20px;
                 transition: width 0.3s;
@@ -39,6 +39,7 @@
 
             .sidebar:hover {
                 width: 280px;
+                
             }
 
             .sidebar-header {
@@ -73,7 +74,7 @@
             }
 
             .sidebar ul li a:hover {
-                background-color: #ebebeb;
+                background-color: yellowgreen;
                 color: #333;
             }
 
@@ -99,29 +100,24 @@
                 </div>
                 <ul class="list-unstyled components">
                     <li>
-                        <a href="DriverMainpage.jsp">
+                        <a href="vendorMain.jsp">
                             <i class="fas fa-tachometer-alt"></i>
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="DriverAccount.jsp">
+                        <a href="vendorAccount.jsp">
                             <i class="fas fa-user"></i>
                             <span class="nav-text">Account</span>
                         </a>
                     </li>
                     <li>
-                        <a href="DriverController?action=order">
+                        <a href="VendorServlet?action=showOrder">
                             <i class="fas fa-file-invoice-dollar"></i>
                             <span class="nav-text">Order</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="DriverSalary.jsp">
-                            <i class="fas fa-money-bill"></i>
-                            <span class="nav-text">Salary</span>
-                        </a>
-                    </li>
+                    
                     <li>
                         <a href="DriverController?action=logout">
                             <i class="fas fa-sign-out-alt"></i>
@@ -130,6 +126,12 @@
                     </li>
                 </ul>
             </nav>
+        </div>
+        <div class="page-content">
+            <div class="container-fluid">
+                <h1><img src="Image/pet grab.png" alt="Logo" class="rounded-circle" width="70px">&nbsp; Pet Grab Vendor</h1><hr>
+                <p>Welcome <b>${pet.username}</b> to the Pet Grab system. Choose a section from the sidebar to get started.</p>
+            </div>
         </div>
         <!-- Scripts -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

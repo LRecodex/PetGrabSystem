@@ -6,6 +6,7 @@ package com.controller;
 
 import petgrab.dao.DriverDAO;
 import com.model.Driver;
+import com.model.Order;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
@@ -18,6 +19,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import petgrab.dao.PetShopDAO;
 
 /**
  *
@@ -27,10 +29,12 @@ import java.util.logging.Logger;
 public class DriverController extends HttpServlet {
 
     private DriverDAO dao;
+    private PetShopDAO petShopDAO;
 
     @Override
     public void init() {
         dao = new DriverDAO();
+        petShopDAO = new PetShopDAO();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -68,6 +72,15 @@ public class DriverController extends HttpServlet {
                 case "logout":
                     logout(request, response);
                     break;
+                case "order":
+                    listOrder(request, response);
+                    break;
+                    case "accept":
+                    acceptOrder(request, response);
+                    break;
+                    case "decline":
+                    declineOrder(request, response);
+                    break;
                 default:
                     viewList(request, response);
                     break;
@@ -89,6 +102,27 @@ public class DriverController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         doGet(request, response);
+    }
+    private void acceptOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        int driverid = Integer.parseInt(request.getParameter("driverid"));
+        dao.acceptOrder(orderid,driverid);
+        listOrder(request,response);
+    }
+    private void declineOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        petShopDAO.declineOrder(orderid);
+        listOrder(request,response);
+    }
+    public void listOrder(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        HttpSession session = request.getSession();
+        Driver dr= (Driver)session.getAttribute("account");
+        request.setAttribute("sesi", dr);
+        List<Order> listOrder = petShopDAO.selectAllOrder();
+        request.setAttribute("list", listOrder);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("DriverOrder.jsp");
+        dispatcher.forward(request, response);
     }
 
     public void insertDriver(HttpServletRequest request, HttpServletResponse response)

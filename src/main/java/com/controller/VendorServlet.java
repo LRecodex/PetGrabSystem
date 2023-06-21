@@ -1,5 +1,7 @@
 package com.controller;
 
+import com.model.Customer;
+import com.model.Order;
 import petgrab.dao.PetShopDAO;
 import com.model.PetShop;
 import jakarta.servlet.RequestDispatcher;
@@ -10,12 +12,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.List;
+import petgrab.dao.CustomerDAO;
 
 public class VendorServlet extends HttpServlet {
 
     private PetShopDAO petShopDAO;
-
+    private CustomerDAO custDAO;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -51,6 +56,18 @@ public class VendorServlet extends HttpServlet {
                 case "list":
                     showAll(request, response);
                     break;
+                    case "login":
+                    processLogin(request, response);
+                    break;
+                    case "showOrder":
+                    showOrder(request, response);
+                    break;
+                    case "accept":
+                    acceptOrder(request, response);
+                    break;
+                    case "decline":
+                    declineOrder(request, response);
+                    break;
                 default:
                     showHomePage(request, response);
                     break;
@@ -60,14 +77,48 @@ public class VendorServlet extends HttpServlet {
             throw new ServletException(ex);
         }
     }
+    private void processLogin(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String un = request.getParameter("username");
+        String pw = request.getParameter("password");
 
+        PetShop pet = petShopDAO.selectVendorByUsername(un, pw);
+        if (pet != null) {
+            HttpSession session = request.getSession(true);
+            session.setAttribute("petsessionid", pet.getShopid());
+            session.setAttribute("pet", pet);
+            RequestDispatcher rd = request.getRequestDispatcher("vendorMain.jsp");
+            rd.forward(request, response);
+        } else {
+            RequestDispatcher rd = request.getRequestDispatcher("invalid.jsp");
+            rd.forward(request, response);
+        }
+    }
+    private void acceptOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        petShopDAO.acceptOrder(orderid);
+        showOrder(request,response);
+    }
+    private void declineOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        petShopDAO.declineOrder(orderid);
+        showOrder(request,response);
+    }
+    private void showOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        HttpSession session = request.getSession();
+              
+        int shopid = (int) session.getAttribute("petsessionid");
+        List <Order> listOrder= petShopDAO.selectAllOrderByShopId(shopid);
+        request.setAttribute("list", listOrder);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("orderVendor.jsp");     
+        dispatcher.forward(request, response);
+    }
     private void registerForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("vendorForm.jsp");
         dispatcher.forward(request, response);
     }
 
     private void showHomePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("customerLogin.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("vendorForm.jsp");
         dispatcher.forward(request, response);
     }
 
@@ -85,10 +136,10 @@ public class VendorServlet extends HttpServlet {
         String shopname = request.getParameter("shopname");
         String shopaddress = request.getParameter("shopaddress");
         String phonenum = request.getParameter("phonenum");
-        byte imagepetshop = Byte.parseByte(request.getParameter("shopimage"));
-        PetShop petShop = new PetShop(username, password, shopname, shopaddress, phonenum, imagepetshop);
+        
+        PetShop petShop = new PetShop(username, password, shopname, shopaddress, phonenum);
         petShopDAO.insert(petShop);
-        response.sendRedirect("list");
+        response.sendRedirect("vendorLogin.jsp");
     }
 
     private void updateVendor(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
@@ -100,7 +151,7 @@ public class VendorServlet extends HttpServlet {
         String phonenum = request.getParameter("phonenum");
         byte imagepetshop = Byte.parseByte(request.getParameter("shopimage"));
 
-        PetShop petshop = new PetShop(username, password, shopname, shopaddress, phonenum, imagepetshop);
+        PetShop petshop = new PetShop(username, password, shopname, shopaddress, phonenum);
         petShopDAO.update(petshop);
         response.sendRedirect("list");
     }

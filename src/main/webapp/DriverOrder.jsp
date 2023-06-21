@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -60,37 +61,35 @@
                             <th>Pet Age</th>
                             <th>Pet Gender</th>
                             <th>Purpose of Visit</th>
+                            <th>Time</th>
+                            <th>Date</th>
                             <th>Status</th>
                             <th>Picture</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <%-- Add your table data here --%>
+                        <c:forEach var="order" items="${list}">
+                        <%-- Add your table data here --%>
                         <tr>
-                            <td>1</td>
-                            <td>1001</td>
-                            <td>2001</td>
-                            <td>3001</td>
-                            <td>Max</td>
-                            <td>5</td>
-                            <td>Male</td>
-                            <td>Checkup</td>
-                            <td>Completed</td>
+                            <td><c:out value="${order.orderid}"/></td>
+                            <td><c:out value="${order.custid}"/></td>
+                            <td><c:out value="${order.driverid}"/></td>
+                            <td><c:out value="${order.shopid}"/></td>
+                            <td><c:out value="${order.petname}"/></td>
+                            <td><c:out value="${order.petage}"/></td>
+                            <td><c:out value="${order.petgender}"/></td>
+                            <td><c:out value="${order.purposeofvisit}"/></td>
+                            <td><c:out value="${order.time}"/></td>
+                            <td><c:out value="${order.date}"/></td>
+                            <td><c:out value="${order.status}"/></td>
                             <td><img src="path_to_image.jpg" alt="Pet Picture" width="100"></td>
+                            <td><a href="DriverController?action=accept&orderid=<c:out value='${order.orderid}'/>&driverid=<c:out value='${sesi.driverid}'/>" >Accept</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="DriverController?action=decline&orderid=<c:out value='${order.orderid}'/>" >Decline</a></td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>1002</td>
-                            <td>2002</td>
-                            <td>3002</td>
-                            <td>Bella</td>
-                            <td>3</td>
-                            <td>Female</td>
-                            <td>Vaccination</td>
-                            <td>Pending</td>
-                            <td><img src="path_to_image.jpg" alt="Pet Picture" width="100"></td>
-                        </tr>
-                        <%-- Add more rows as needed --%>
+                        </c:forEach>
+                        
                     </tbody>
                 </table>
             </div>

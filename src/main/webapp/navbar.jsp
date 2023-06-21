@@ -75,6 +75,16 @@
                                 <li><a class="dropdown-item" href="http://localhost:8080/PetGrabSystem/customerLogin.jsp">Log in</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Vendor
+                            </a>
+                            
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="http://localhost:8080/PetGrabSystem/vendorForm.jsp">Sign up</a></li>
+                                <li><a class="dropdown-item" href="http://localhost:8080/PetGrabSystem/vendorLogin.jsp">Log in</a></li>
+                            </ul>
+                        </li>
                         </c:if>
                         <c:if test="${customer !=null}">
                         <li class="nav-item">
