@@ -96,7 +96,7 @@
                                         <c:when test="${order.status eq 'Delivered'}">
                                             <form enctype="multipart/form-data" action="DriverController?action=addproof" method="post">
                                                 <div class="form-group">
-                                                    <input type="text" class="form-control" name="orderid" value="<c:out value="${order.orderid}"/>" readonly>
+                                                    <input type="hidden" class="form-control" name="orderid" value="<c:out value="${order.orderid}"/>" readonly>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="fileInput-${order.orderid}">Choose a file:</label>

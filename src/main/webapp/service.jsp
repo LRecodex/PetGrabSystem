@@ -30,7 +30,7 @@
         <jsp:include page="navbar.jsp"/>
         <br><br>
         <div class="container">
-            <h1>List Of PETSHOPS!!!</h1>
+            <h1>List Of Pet Shop!</h1>
             <br>
             <div class="container">
                 <div class="card clr">
