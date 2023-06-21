@@ -54,7 +54,7 @@
                                 <tr>
                                     <td><c:out value="${order.orderid}" /></td>
                                     <td><c:out value="${order.custid}" /></td>
-                                    <td><c:out value="${order.driverid}" /></td>
+                                    <td><a href="CustomerServlet?action=listdriverdetails&driverid=${order.driverid}&orderid=${order.orderid}"><c:out value="${order.driverid}" /></a></td>
                                     <td><c:out value="${order.shopid}" /></td>
                                     <td><c:out value="${order.petname}" /></td>
                                     <td><c:out value="${order.petage}" /></td>

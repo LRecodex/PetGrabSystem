@@ -287,14 +287,6 @@ public class DriverController extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void listdriverdetails(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int driverid = Integer.parseInt(request.getParameter("driverid"));
-        int orderid = Integer.parseInt(request.getParameter("orderid"));
-        request.setAttribute("orderid", orderid);
-        Driver driver = dao.SelectDriverById(driverid);
-        request.setAttribute("driver", driver);
-        RequestDispatcher rd = request.getRequestDispatcher("DriverDetail.jsp");
-        rd.forward(request, response);
-    }
+    
 
 }

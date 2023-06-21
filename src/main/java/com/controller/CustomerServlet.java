@@ -3,6 +3,7 @@ package com.controller;
 import petgrab.dao.CustomerDAO;
 import petgrab.dao.PetShopDAO;
 import com.model.Customer;
+import com.model.Driver;
 import com.model.Order;
 import com.model.PetShop;
 import com.model.Service;
@@ -17,6 +18,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
+import petgrab.dao.DriverDAO;
 
 
 @WebServlet("/Customer")
@@ -24,6 +26,7 @@ public class CustomerServlet extends HttpServlet {
 
     private CustomerDAO custDAO;
     private PetShopDAO petshopDAO;
+    private DriverDAO dao;
    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -33,7 +36,7 @@ public class CustomerServlet extends HttpServlet {
     public void init() {
         custDAO = new CustomerDAO();
         petshopDAO = new PetShopDAO();
-        
+        dao = new DriverDAO();
     }
 
     @Override
@@ -76,6 +79,9 @@ public class CustomerServlet extends HttpServlet {
                     case "showOrder":
                     showOrder(request, response);
                     break;
+                    case "listdriverdetails":
+                    listdriverdetails(request, response);
+                    break;
                 default:
                     showHomePage(request, response);
                     break;
@@ -84,6 +90,15 @@ public class CustomerServlet extends HttpServlet {
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
+    }
+    private void listdriverdetails(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int driverid = Integer.parseInt(request.getParameter("driverid"));
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        request.setAttribute("orderid", orderid);
+        Driver driver = dao.SelectDriverById(driverid);
+        request.setAttribute("driver", driver);
+        RequestDispatcher rd = request.getRequestDispatcher("DriverDetail.jsp");
+        rd.forward(request, response);
     }
     private void showOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         HttpSession session = request.getSession();        
