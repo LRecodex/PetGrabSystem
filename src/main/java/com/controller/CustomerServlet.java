@@ -18,12 +18,13 @@ import jakarta.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.List;
 
+
 @WebServlet("/Customer")
 public class CustomerServlet extends HttpServlet {
 
     private CustomerDAO custDAO;
     private PetShopDAO petshopDAO;
-
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -32,6 +33,7 @@ public class CustomerServlet extends HttpServlet {
     public void init() {
         custDAO = new CustomerDAO();
         petshopDAO = new PetShopDAO();
+        
     }
 
     @Override
@@ -84,8 +86,7 @@ public class CustomerServlet extends HttpServlet {
         }
     }
     private void showOrder(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        HttpSession session = request.getSession();
-        
+        HttpSession session = request.getSession();        
         int custid = (int) session.getAttribute("customersessionid");
         
         List <Order> listOrder= custDAO.selectOrderByCustId(custid);
@@ -108,7 +109,7 @@ public class CustomerServlet extends HttpServlet {
         Order order = new Order(custid,shopid,petname,petage,petgender,pov,time,date,status);
         custDAO.insertOderFromCustomer(order);
         
-        RequestDispatcher dispatcher = request.getRequestDispatcher("paymentPage.jsp");     
+        RequestDispatcher dispatcher = request.getRequestDispatcher("CustomerServlet?action=showOrder");     
         dispatcher.forward(request, response);
     }
     private void showBookForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

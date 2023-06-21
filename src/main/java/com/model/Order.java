@@ -14,6 +14,7 @@ public class Order {
     private String date;
     private String status;
     private byte picture;
+    
 
     public Order() {
 

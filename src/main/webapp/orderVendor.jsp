@@ -135,8 +135,7 @@
                         <tr>
                             <th>Order ID</th>
                             <th>Customer ID</th>
-                            <th>Driver ID</th>
-                            <th>Shop ID</th>
+                            <th>Driver ID</th>                              
                             <th>Pet Name</th>
                             <th>Pet Age</th>
                             <th>Pet Gender</th>
@@ -155,8 +154,7 @@
                         <tr>
                             <td><c:out value="${order.orderid}"/></td>
                             <td><c:out value="${order.custid}"/></td>
-                            <td><c:out value="${order.driverid}"/></td>
-                            <td><c:out value="${order.shopid}"/></td>
+                            <td><c:out value="${order.driverid}"/></td>                            
                             <td><c:out value="${order.petname}"/></td>
                             <td><c:out value="${order.petage}"/></td>
                             <td><c:out value="${order.petgender}"/></td>

@@ -230,12 +230,13 @@ public class PetShopDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                int serviceid = rs.getInt("serviceid");
+                
                 int shopid = rs.getInt("shopid");
+                String name = rs.getString("name");
                 String description = rs.getString("description");
                 double price = rs.getDouble("price");
 
-                ser.add(new Service(serviceid, shopid, description, price));
+                ser.add(new Service(id, shopid, name,description, price));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -253,9 +254,10 @@ public class PetShopDAO {
 
             while (rs.next()) {
                 int shopid = rs.getInt("shopid");
+                String name = rs.getString("name");
                 String description = rs.getString("description");
                 double price = rs.getDouble("price");
-                ser = new Service(id, shopid, description, price);
+                ser = new Service(id, shopid,name, description, price);
             }
 
         } catch (SQLException e) {

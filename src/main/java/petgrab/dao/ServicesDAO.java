@@ -4,7 +4,7 @@
  */
 package petgrab.dao;
 
-import com.model.Services;
+import com.model.Service;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -20,14 +20,14 @@ import java.util.List;
 public class ServicesDAO {
     private final String jdbcURL = "jdbc:mysql://localhost:3306/petgrabsystem";
     private final String jdbcUsername = "root";
-    private final String jdbcPassword = "";
+    private final String jdbcPassword = "admin";
 
-    private static final String INSERT_SERVICES_SQL = "INSERT INTO services(vendorId,name,description,price) values(?,?,?,?);";
-    private static final String SELECT_SERVICES_SQL_BY_ID = "SELECT * FROM services where id=?;";
-    private static final String SELECT_ALL_SERVICES_SQL_BY_VENDORID = "SELECT * FROM services where vendorId=?;";    
-    private static final String SELECT_ALL_SERVICES_SQL = "SELECT * FROM services;";
-    private static final String DELETE_SERVICES_SQL = "delete from services where id=?;";
-    private static final String UPDATE_SERVICES_SQL = "update services set vendorId=?,name=?,description=? price=? where id=?;";
+    private static final String INSERT_SERVICES_SQL = "INSERT INTO service(shopid,name,description,price) values(?,?,?,?);";
+    private static final String SELECT_SERVICES_SQL_BY_ID = "SELECT * FROM service where serviceid=?;";
+    private static final String SELECT_ALL_SERVICES_SQL_BY_VENDORID = "SELECT * FROM service where shopid=?;";    
+    private static final String SELECT_ALL_SERVICES_SQL = "SELECT * FROM service;";
+    private static final String DELETE_SERVICES_SQL = "delete from service where serviceid=?;";
+    private static final String UPDATE_SERVICES_SQL = "update service set shopid=?,name=?,description=? price=? where serviceid=?;";
     
     public ServicesDAO() {
     }
@@ -35,7 +35,7 @@ public class ServicesDAO {
     protected Connection getConnection() {
         Connection connection = null;
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(jdbcURL, jdbcUsername, jdbcPassword);
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -43,11 +43,11 @@ public class ServicesDAO {
         return connection;
     }
 
-    public void insertServices(Services service) throws SQLException {
+    public void insertServices(Service service) throws SQLException {
         System.out.println(INSERT_SERVICES_SQL);
 
         try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(INSERT_SERVICES_SQL)) {
-            ps.setInt(1, service.getVendorId());
+            ps.setInt(1, service.getShopid());
             ps.setString(2, service.getName());
             ps.setString(3, service.getDescription());
             ps.setDouble(4, service.getPrice());
@@ -57,8 +57,8 @@ public class ServicesDAO {
         }
     }
 
-    public Services selectService(int id) {
-        Services service = null;
+    public Service selectService(int id) {
+        Service service = null;
 
         try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_SERVICES_SQL_BY_ID)) {
             ps.setInt(1, id);
@@ -71,7 +71,7 @@ public class ServicesDAO {
                 String description = rs.getString("description");
                 double price = rs.getDouble("price");
                
-                service = new Services(vendorId,name,description,price);
+                service = new Service(vendorId,name,description,price);
             }
 
         } catch (SQLException e) {
@@ -81,8 +81,8 @@ public class ServicesDAO {
     }
 
     
-    public List<Services> selectAllServicesByVendorID(int vendorId) {
-        List<Services> services = new ArrayList<>();
+    public List<Service> selectAllServicesByVendorID(int vendorId) {
+        List<Service> services = new ArrayList<>();
 
         try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SERVICES_SQL_BY_VENDORID);) {
             ps.setInt(1, vendorId);
@@ -94,7 +94,7 @@ public class ServicesDAO {
                 String name = rs.getString("name");
                 String description = rs.getString("description");
                 double price = rs.getDouble("price");
-                services.add(new Services(id,vendorId,name,description,price));
+                services.add(new Service(id,vendorId,name,description,price));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -102,8 +102,8 @@ public class ServicesDAO {
         return services;
     }
 
-    public List<Services> selectAllService() {
-        List<Services> services = new ArrayList<>();
+    public List<Service> selectAllService() {
+        List<Service> services = new ArrayList<>();
 
         try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SERVICES_SQL);) {
             System.out.println(ps);
@@ -115,7 +115,7 @@ public class ServicesDAO {
                  String name = rs.getString("name");
                 String description = rs.getString("description");
                 double price = rs.getDouble("price");
-                services.add(new Services(id,vendorId,name,description,price));
+                services.add(new Service(id,vendorId,name,description,price));
             }
         } catch (SQLException e) {
             printSQLException(e);
@@ -132,14 +132,14 @@ public class ServicesDAO {
         return rowDeleted;
     }
 
-    public boolean updateService(Services service) throws SQLException {
+    public boolean updateService(Service service) throws SQLException {
         boolean rowUpdated;
         try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(UPDATE_SERVICES_SQL)) {
-            ps.setInt(1, service.getVendorId());
+            ps.setInt(1, service.getShopid());
             ps.setString(2, service.getName());
             ps.setString(3, service.getDescription());
             ps.setDouble(4, service.getPrice());
-            ps.setInt(5, service.getId());
+            ps.setInt(5, service.getServiceid());
             rowUpdated = ps.executeUpdate() > 0;
         }
         return rowUpdated;

@@ -7,26 +7,38 @@ package com.model;
 public class Service {
     private int serviceid;
     private int shopid;
+    private String name;
     private String description;
     private double price;
 
     public Service(){
         
     }
-    public Service( int shopid, String description, double price) {
+    public Service( int shopid, String name,String description, double price) {
         super();
         this.shopid = shopid;
+        this.name = name;
         this.description = description;
         this.price = price;
     }
-    public Service(int serviceid, int shopid, String description, double price) {
+    public Service(int serviceid, int shopid, String name,String description, double price) {
         super();
         this.serviceid = serviceid;
         this.shopid = shopid;
+        this.name = name;
         this.description = description;
         this.price = price;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    
     public int getServiceid() {
         return serviceid;
     }

@@ -12,53 +12,136 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Vendor Page</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+        <style>
+            html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
 
+            .sidebar {
+                height: 100%;
+                width: 250px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                background-color: yellow;
+                overflow-x: hidden;
+                padding-top: 20px;
+                transition: width 0.3s;
+            }
+
+            .sidebar:hover {
+                width: 280px;
+                
+            }
+
+            .sidebar-header {
+                padding: 10px 20px;
+            }
+
+            .sidebar-header strong {
+                color: #333;
+                font-size: 1.5rem;
+                font-weight: 600;
+            }
+
+            .sidebar ul.components {
+                padding: 20px 0;
+            }
+
+            .sidebar ul li {
+                margin-bottom: 10px;
+            }
+
+            .sidebar ul li a {
+                display: flex;
+                align-items: center;
+                color: #555;
+                padding: 10px 20px;
+                text-decoration: none;
+            }
+
+            .sidebar ul li a i {
+                margin-right: 10px;
+                font-size: 1.2rem;
+            }
+
+            .sidebar ul li a:hover {
+                background-color: yellowgreen;
+                color: #333;
+            }
+
+            .sidebar.active {
+                width: 280px;
+            }
+
+            .page-content {
+                margin-left: 250px;
+                padding: 20px;
+            }
+        </style>
     </head>
     <body>
-        <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg bg-body-tertiasry bg-success">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">PetGrab</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarScroll">
-                    <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Get Started!
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="customerForm.jsp">Sign up</a></li>
-                                <li><a class="dropdown-item" href="customerForm.jsp">Log in</a></li>
-                            </ul>
-                        </li>
-
-                    </ul>
-                    <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                    </form>
+         <div class="sidebar">
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <img src="Image/pet grab.png" alt="Logo" class="rounded-circle" width="50px"><!-- Logo -->
+                    <a href="#">
+                        <strong>Pet Grab</strong>
+                    </a>
                 </div>
-            </div>
-        </nav>
-        <!-- End Navbar -->
+                <ul class="list-unstyled components">
+                    <li>
+                        <a href="vendorMain.jsp">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span class="nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="VendorServlet?action=edit">
+                            <i class="fas fa-user"></i>
+                            <span class="nav-text">Account</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="VendorServlet?action=showOrder">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span class="nav-text">Order</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="VendorServlet?action=showService&shopid=${petsessionid}">
+                            <i class="fas fa-file-alt"></i>
+                            <span class="nav-text">Service</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="DriverController?action=logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="nav-text">Sign Out</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
         <br><br>
         <!-- Start Content -->
         <div class="container">
             <div class="card">
+                <a href='ServiceServlet?action=new&shopid=${shopid}'>Add New Service</a>
                 <div class="card-body col-md-6">
                     <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Vendor ID</th>
+                            <th>Service ID</th>                          
                             <th>Name</th>
                             <th>Description</th>
                             <th>Price</th>
@@ -66,14 +149,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach var="services" items="${listServices}">
+                        <c:forEach var="services" items="${serv}">
                             <tr>
                                 <td>
-                                    <c:out value="${services.id}"/>
-                                </td>
-                                <td>
-                                    <c:out value="${services.vendorId}"/>
-                                </td>
+                                    <c:out value="${services.serviceid}"/>
+                                </td>                               
                                 <td>
                                     <c:out value="${services.name}"/>
                                 </td>
@@ -83,8 +163,8 @@
                                 <td>
                                     <c:out value="${services.price}"/> &nbsp;&nbsp;
                                 </td>
-                                <td><a href="/PetGrabSystem/ServiceServlet?action=edit&amp;id=${services.id}" class="btn btn-warning">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp;<!-- comment -->
-                                    <a href="/PetGrabSystem/ServiceServlet?action=delete&amp;id=${services.id}" class="btn btn-secondary">Delete</a>
+                                <td><a href="ServiceServlet?action=edit&serviceid=${services.id}" class="btn btn-warning">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp;<!-- comment -->
+                                    <a href="ServiceServlet?action=delete&serviceid=${services.id}" class="btn btn-secondary">Delete</a>
                                 </td>
                             </tr>
                         </c:forEach>

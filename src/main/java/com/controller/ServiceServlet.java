@@ -1,7 +1,7 @@
 package com.controller;
 
 import petgrab.dao.ServicesDAO;
-import com.model.Services;
+import com.model.Service;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 
@@ -27,25 +27,26 @@ public class ServiceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getServletPath();
+        String action = request.getParameter("action");
         try {
             switch (action) {
-                case "/new":
+                case "new":
                     registerForm(request, response);
                     break;
-                case "/insert":
+                case "insert":
                     insertService(request, response);
                     break;
-                case "/edit":
+                case "edit":
                     showEditForm(request, response);
                     break;
-                case "/update":
+                case "update":
                     updateService(request, response);
                     break;
-                case "/delete":
+                case "delete":
                     deleteService(request, response);
+                    break;
                 default:
-                    showHomePage(request, response);
+                    showList(request, response);
                     break;
 
             }
@@ -59,36 +60,36 @@ public class ServiceServlet extends HttpServlet {
         dispatcher.forward(request, response);
     }
 
-    private void showHomePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("customerLogin.jsp");
+    private void showList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("ServiceServlet?action");
         dispatcher.forward(request, response);
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        Services service = serviceDao.selectService(id);
+        Service service = serviceDao.selectService(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("serviceForm.jsp");
         request.setAttribute("service", service);
         dispatcher.forward(request, response);
     }
 
     private void insertService(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        int vendorId = Integer.parseInt(request.getParameter("vendorId"));
+        int shopid = Integer.parseInt(request.getParameter("shopid"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
-        Double price = Double.parseDouble(request.getParameter("price"));
-        Services service = new Services(vendorId, name, description, price);
+        double price = Double.parseDouble(request.getParameter("price"));
+        Service service = new Service(shopid, name, description, price);
         serviceDao.insertServices(service);
-        response.sendRedirect("list");
+        response.sendRedirect("ServiceServlet?action=googoogaa");
     }
 
     private void updateService(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        int vendorId = Integer.parseInt(request.getParameter("vendorId"));
+        int shopid = Integer.parseInt(request.getParameter("shopid"));
         String name = request.getParameter("name");
         String description = request.getParameter("description");
         Double price = Double.parseDouble(request.getParameter("price"));
-        Services service = new Services(vendorId, name, description, price);
+        Service service = new Service(shopid, name, description, price);
         serviceDao.updateService(service);
         response.sendRedirect("list");
     }

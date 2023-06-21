@@ -23,19 +23,18 @@
         <br><br>
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <h2 class="text-center">Payment QR Code</h2>
                     <img src="images/paymentqr.jpg" alt="Payment QR Code" class="qr-code-img mx-auto d-block">
                 </div>
-                <div class="col-md-6">
-                    <h2 class="text-center">Your Order</h2>
+                <div class="col-md-8">
+                    <h2 class="text-center">Order History</h2>
                     <table class="table table-bordered table-hover">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Order ID</th>
-                            <th>Customer ID</th>
+                            <th>Order ID</th>                         
                             <th>Driver ID</th>
-                            <th>Shop ID</th>
+                            <th>Shop ID</th>                           
                             <th>Pet Name</th>
                             <th>Pet Age</th>
                             <th>Pet Gender</th>
@@ -51,10 +50,10 @@
                         <%-- Add your table data here --%>
                         <tr>
                             <td><c:out value="${order.orderid}"/></td>
-                            <td><c:out value="${order.custid}"/></td>
-                            <td><c:out value="${order.driverid}"/></td>
-                            <td><c:out value="${order.shopid}"/></td>
-                            <td><c:out value="${order.petname}"/></td>
+                            
+                            <td><a href="DriverController?action=listdriverdetails&driverid=${order.driverid}&orderid=${order.orderid}"><c:out value="${order.driverid}"/></a></td>
+                            <td><c:out value="${order.shopid}"/></td>                           
+                            <td><c:out value="${order.petname}"/></td>                          
                             <td><c:out value="${order.petage}"/></td>
                             <td><c:out value="${order.petgender}"/></td>
                             <td><c:out value="${order.purposeofvisit}"/></td>

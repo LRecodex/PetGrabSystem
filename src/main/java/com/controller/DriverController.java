@@ -81,6 +81,9 @@ public class DriverController extends HttpServlet {
                     case "decline":
                     declineOrder(request, response);
                     break;
+                    case "listdriverdetails":
+                    listdriverdetails(request, response);
+                    break;
                 default:
                     viewList(request, response);
                     break;
@@ -250,5 +253,15 @@ public class DriverController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void listdriverdetails(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        int driverid = Integer.parseInt(request.getParameter("driverid"));
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        request.setAttribute("orderid", orderid);
+        Driver driver = dao.SelectDriverById(driverid);
+        request.setAttribute("driver", driver);
+        RequestDispatcher rd = request.getRequestDispatcher("DriverDetail.jsp");
+        rd.forward(request, response);
+    }
 
 }

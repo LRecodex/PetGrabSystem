@@ -117,7 +117,12 @@
                             <span class="nav-text">Order</span>
                         </a>
                     </li>
-                    
+                    <li>
+                        <a href="VendorServlet?action=showService&shopid=${petsessionid}">
+                            <i class="fas fa-file-alt"></i>
+                            <span class="nav-text">Service</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="DriverController?action=logout">
                             <i class="fas fa-sign-out-alt"></i>
