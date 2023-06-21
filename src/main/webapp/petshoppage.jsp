@@ -17,7 +17,8 @@
                 margin: 5%;
             }
             .card{
-
+                margin-left: auto;
+                margin-right: auto;
                 margin-bottom: 5%;
             }
             .clr{
@@ -32,23 +33,26 @@
 
         <div class="container">
             <div class="card clr">
-                <div class="row">  
-                    <h3><c:out value='${pet.shopname}'/></h3>
-                    <h4><c:out value='${pet.shopaddress}'/></h4>
-                    <ul>
-                        <div class="card">
+                <div class="row">
+                <div class="card">  
+                    <h3>Shop Name :<c:out value='${pet.shopname}'/></h3>
+                    <h4>Shop Address:<c:out value='${pet.shopaddress}'/></h4>
+                    </div>
+                    <div class="card">
+                        <ul>
                             <c:forEach var="serv" items="${service}">
                                 <li> <c:out value="${serv.description}"/>&nbsp;&nbsp;&nbsp;&nbsp;RM<c:out value="${serv.price}"/></li>
                                 </c:forEach>
                             <p>Contact Shop : <c:out value='${pet.phonenum}'/></p>
-                        </div>
-                        <c:if test="${customersessionid !=null}">
-                            <a href="CustomerServlet?action=showBookForm&shopid=<c:out value='${pet.shopid}'/>" class="btn btn-primary btn-lg">Book Now</a>
-                        </c:if>
-                        <c:if test="${customersessionid ==null}">
-                            <a href="customerLogin.jsp" class="btn btn-primary btn-lg">Log In to Book Order</a>
-                        </c:if>
-                    </ul>
+
+                            <c:if test="${customersessionid !=null}">
+                                <a href="CustomerServlet?action=showBookForm&shopid=<c:out value='${pet.shopid}'/>" class="btn btn-primary btn-lg">Book Now</a>
+                            </c:if>
+                            <c:if test="${customersessionid ==null}">
+                                <a href="customerLogin.jsp" class="btn btn-primary btn-lg">Log In to Book Order</a>
+                            </c:if>
+                        </ul>
+                    </div>
                 </div>
             </div>                           
         </div>
