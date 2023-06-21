@@ -56,6 +56,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="http://localhost:8080/PetGrabSystem/Customer?action=listPetShop">Service</a>
                         </li>
+                        <c:if test="${customer ==null}">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Driver
@@ -64,7 +65,7 @@
                                 <li><a class="dropdown-item" href="http://localhost:8080/PetGrabSystem/Authentication.jsp">Log in</a></li>
                             </ul>
                         </li>
-                         <c:if test="${customer ==null}">
+                         
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Get Started!
@@ -87,12 +88,17 @@
                         </li>
                         </c:if>
                         <c:if test="${customer !=null}">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="CustomerServlet?action=logout">Logout</a>
-                        </li>
+                        
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="CustomerServlet?action=showOrder">My Order</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="CustomerServlet?action=edit">My Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="CustomerServlet?action=logout">Logout</a>
+                        </li>
+                        
                         </c:if>
                         
                     </ul>

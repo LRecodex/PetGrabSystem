@@ -146,6 +146,7 @@
     <body>
         <!-- Sidebar -->
         <!-- Sidebar -->
+        <!-- Sidebar -->
         <div class="sidebar">
             <nav id="sidebar">
                 <div class="sidebar-header">
@@ -162,7 +163,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="vendorAccount.jsp">
+                        <a href="VendorServlet?action=edit">
                             <i class="fas fa-user"></i>
                             <span class="nav-text">Account</span>
                         </a>
@@ -196,30 +197,30 @@
                                 <i class="fas fa-edit"></i> Edit
                             </button>
                         </div>
-                        <form class="form-control mb-3" action="update">                      
+                        <form class="form-control mb-3" action="VendorServlet">                      
                                 <h1>Update Vendor</h1>
-                            
-                                
+                                <input type="hidden" name="action" value="update"> 
                             <div class="mb-3">
+                                <input type="hidden" name="shopid" value="${vendor.shopid}">
                                 <label class="form-label">Username</label>
-                                <input type="text" name="username" class="form-control" placeholder="Service Name">
+                                <input type="text" name="username" class="form-control" value="${vendor.username}" placeholder="Service Name">
                             </div>
                                 <div class="mb-3">
                                 <label class="form-label">Password</label>
-                                <input type="password" name="password" class="form-control" placeholder="Enter your password">
+                                <input type="password" name="password" class="form-control" value="${vendor.password}" placeholder="Enter your password">
                             </div>
                                 <div class="mb-3">
                                 <label class="form-label">Shop Name</label>
-                                <input type="text" name="shopname" class="form-control" placeholder="Service Name">
+                                <input type="text" name="shopname" class="form-control" value="${vendor.shopname}" placeholder="Service Name">
                             </div>
                             
                             <div class="mb-3">
                                 <label class="form-label ">Address</label>
-                                <input type="text" class="form-control" name="shopaddress" placeholder="Enter your address">
+                                <input type="text" class="form-control" name="shopaddress" value="${vendor.shopaddress}" placeholder="Enter your address">
                             </div>
                                 <div class="mb-3">
                                 <label class="form-label">Phone</label>
-                                <input type="text" class="form-control" name="phonenum" placeholder="Phone No:0124468899">
+                                <input type="text" class="form-control" name="phonenum" value="${vendor.phonenum}" placeholder="Phone No:0124468899">
                             </div>
                                                         
                                 <button type="submit" class="btn btn-success">Save</button>

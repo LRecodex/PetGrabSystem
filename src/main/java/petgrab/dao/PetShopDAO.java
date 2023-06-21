@@ -25,7 +25,7 @@ public class PetShopDAO {
     private static final String SELECT_ALL_ORDER_SHOPID = "SELECT * FROM orders WHERE shopid=?";
     private static final String SELECT_ALL_SERVICE = "SELECT * FROM service WHERE shopid=?";
     private static final String SELECT_ALL_ORDER="SELECT * FROM orders";
-    private static final String UPDATE_PETSHOP_SQL = "UPDATE customer SET username=?,password=?,shopname=?,shopaddress=?,phonenum=?,imagepetshop=? WHERE shopid=?";
+    private static final String UPDATE_PETSHOP_SQL = "UPDATE petshop SET username=?,password=?,shopname=?,shopaddress=?,phonenum=? WHERE shopid=?";
     private static final String UPDATE_STATUS_ACCEPT = "UPDATE orders SET status='Waiting for driver...'  WHERE orderid=?";
     private static final String UPDATE_STATUS_DECLINE = "UPDATE orders SET status='Declined'  WHERE orderid=?";
     private static final String DELETE_PETSHOP_SQL = "DELETE FROM petshop where id=?";
@@ -167,9 +167,9 @@ public class PetShopDAO {
             ps.setString(2, petShop.getPassword());
             ps.setString(3, petShop.getShopname());
             ps.setString(4, petShop.getShopaddress());
-            ps.setString(5, petShop.getPhonenum());
-            
+            ps.setString(5, petShop.getPhonenum());           
             ps.setInt(6, petShop.getShopid());
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -188,8 +188,7 @@ public class PetShopDAO {
                 String password = rs.getString("password");
                 String shopname = rs.getString("shopname");
                 String shopaddress = rs.getString("shopaddress");
-                String phonenum = rs.getString("phonenum");
-               
+                String phonenum = rs.getString("phonenum");              
                 pet = new PetShop(id, username, password, shopname, shopaddress, phonenum);
             }
 

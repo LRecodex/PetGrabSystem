@@ -26,32 +26,34 @@
                         <h1>Register</h1>
                     </c:if>
                     <c:if test="${customer !=null}">
-                        <form class="form-control mb-3" action="update">                      
+                        <form class="form-control mb-3" action="CustomerServlet">
+                            <input value="update" name="action" type="hidden">
+                            <input value="${customer.custid}" name="custid" type="hidden">
                             <h1>Update</h1>
                         </c:if>
                         <div class="mb-3">
                             <label class="form-label">Username</label>
-                            <input type="text" name="username" class="form-control" placeholder="Create your username">
+                            <input type="text" name="username" class="form-control" value="${customer.username}" placeholder="Create your username">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Create your password">
+                            <input type="password" class="form-control" name="password" value="${customer.password}" placeholder="Create your password">
                         </div>
                         <div class="mb-3">
                             <label class="form-label ">Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="Enter your name">
+                            <input type="text" class="form-control" name="name" value="${customer.name}" placeholder="Enter your name">
                         </div>
                         <div class="mb-3">
                             <label class="form-label ">Email address</label>
-                            <input type="email" class="form-control" name="email" placeholder="name@example.com">
+                            <input type="email" class="form-control" name="email" value="${customer.email}" placeholder="name@example.com">
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Address</label>
-                            <textarea class="form-control" name="address" rows="3"></textarea>
+                            <textarea class="form-control" name="address" value="${customer.address}" rows="3"></textarea>
                         </div>
                         <div class="mb-3">
                             <label class="form-label ">Phone Number</label>
-                            <input type="text" name="phonenum" class="form-control" placeholder="e.g:012-3456789">
+                            <input type="text" name="phonenum" class="form-control" value="${customer.phonenum}" placeholder="e.g:012-3456789">
                         </div>
                         <button type="submit" class="btn btn-success">Save</button>
                         <button type="reset" class="btn btn-success">Cancel</button>

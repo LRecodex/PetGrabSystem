@@ -140,8 +140,10 @@ public class DriverController extends HttpServlet {
     private void acceptOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int orderid = Integer.parseInt(request.getParameter("orderid"));
         int driverid = Integer.parseInt(request.getParameter("driverid"));
+
         dao.acceptOrder(driverid, orderid);
         listOrder(request, response);
+
     }
 
     private void declineOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
