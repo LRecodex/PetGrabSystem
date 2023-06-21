@@ -54,7 +54,6 @@ public class VendorServlet extends HttpServlet {
                 case "delete":
                     deleteVendor(request, response);
                     break;
-
                 case "login":
                     processLogin(request, response);
                     break;
@@ -67,8 +66,26 @@ public class VendorServlet extends HttpServlet {
                 case "decline":
                     declineOrder(request, response);
                     break;
-                case "showService":
-                    showService(request, response);
+                     case "createServiceForm":
+                    createServiceForm(request, response);
+                    break;
+                case "insertService":
+                    insertService(request, response);
+                    break;
+                case "showListServiceByShopId":
+                    showListServiceByShopId(request, response);
+                    break;
+                    case "showListServiceByServiceId":
+                    showListServiceByServiceId(request, response);
+                    break;
+                case "editservice":
+                    showEditServiceForm(request, response);
+                    break;
+                case "deleteservice":
+                    deleteService(request, response);
+                    break;
+                    case "updateService":
+                    updateService(request, response);
                     break;
                 default:
                     showHomePage(request, response);
@@ -77,7 +94,50 @@ public class VendorServlet extends HttpServlet {
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
-        }
+        } 
+    }
+
+    private void deleteService(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        
+        int id = Integer.parseInt(request.getParameter("serviceid"));
+        int shopid = Integer.parseInt(request.getParameter("shopid"));
+        request.setAttribute("shopid", shopid);
+        System.out.println("ID:" + id);
+        servicesDAO.deleteServices(id);
+        response.sendRedirect("VendorServlet?action=showListServiceByShopId");
+    }
+    private void showListServiceByServiceId(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        
+        int serviceid = Integer.parseInt(request.getParameter("serviceid"));
+      
+        List<Service> service = petShopDAO.selectAllServiceByServiceId(serviceid);
+        request.setAttribute("serv", service);
+        RequestDispatcher rd = request.getRequestDispatcher("ServicesList.jsp");
+        rd.forward(request, response);
+    }
+
+    private void showListServiceByShopId(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        HttpSession session = request.getSession();
+        int shopid = (int) session.getAttribute("petsessionid");
+        List<Service> service = petShopDAO.selectAllServiceByShopId(shopid);
+        request.setAttribute("serv", service);
+        RequestDispatcher rd = request.getRequestDispatcher("ServicesList.jsp");
+        rd.forward(request, response);
+    }
+
+    private void createServiceForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
+        RequestDispatcher rd = request.getRequestDispatcher("serviceForm.jsp");
+        rd.forward(request, response);
+    }
+    private void insertService(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int shopid = Integer.parseInt(request.getParameter("shopid"));
+        String name = request.getParameter("name");             
+        String description = request.getParameter("description");
+        double price = Double.parseDouble(request.getParameter("price"));
+
+        Service ser = new Service(shopid,name,description,price);
+        petShopDAO.insertService(ser);
+        response.sendRedirect("ServicesList.jsp");
     }
 
     private void processLogin(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
@@ -138,7 +198,27 @@ public class VendorServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("vendorAccount.jsp");
         dispatcher.forward(request, response);
     }
+    private void showEditServiceForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {   
+        int serviceid = Integer.parseInt(request.getParameter("serviceid"));
+        Service ser = petShopDAO.selectAllService(serviceid);
+        request.setAttribute("service", ser);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("serviceEditForm.jsp");
+        dispatcher.forward(request, response);
+    }
 
+    private void updateService(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+        int serviceid = Integer.parseInt(request.getParameter("serviceid"));
+        int shopid = Integer.parseInt(request.getParameter("shopid"));
+        String name = request.getParameter("name");
+        String description = request.getParameter("description");
+        double price = Double.parseDouble(request.getParameter("price"));
+        
+
+        Service service = new Service(serviceid, shopid, name, description, price);
+        petShopDAO.updateService(service);
+        response.sendRedirect("vendorMain.jsp");
+    }
+    
     private void insertVendor(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -165,7 +245,7 @@ public class VendorServlet extends HttpServlet {
     }
 
     private void deleteVendor(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int id = Integer.parseInt(request.getParameter("serviceid"));
         System.out.println("ID:" + id);
         petShopDAO.delete(id);
         response.sendRedirect("list");
@@ -182,14 +262,8 @@ public class VendorServlet extends HttpServlet {
         return "Short description";
     }// </editor-fold>   
 
-    private void showService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void editService(HttpServletRequest request, HttpServletResponse response) {
         
-        int shopid = Integer.parseInt(request.getParameter("shopid"));
-        List<Service> serv = servicesDAO.selectAllServicesByVendorID(shopid);
-        request.setAttribute("shopid", shopid);
-        request.setAttribute("serv", serv);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("ServicesList.jsp");
-        dispatcher.forward(request, response);
     }
 
 }

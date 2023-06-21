@@ -87,6 +87,7 @@
         </style>
     </head>
     <body>
+        <!-- Navbar -->
         <jsp:include page="vendorSidebar.jsp"/>
         <!-- End Navbar -->
         <br><br>
@@ -95,20 +96,21 @@
             <div class="card">
                 <div class="card-body col-md-6">              
                         <form class="form-control mb-3" action="VendorServlet">  
-                             <input type="hidden" name="action" value="insertService">
-                            <h1>Create Service</h1>                                                                      
-                                <input type="hidden" name="shopid" value="${petsessionid}" >                            
+                             <input type="hidden" name="action" value="updateService">
+                            <h1>Edit Service</h1>        
+                            <input type="hidden" name="serviceid" value="${service.serviceid}" >
+                                <input type="hidden" name="shopid" value="${service.shopid}" >                            
                             <div class="mb-3">
                                 <label class="form-label">Name</label>
-                                <input type="text" class="form-control" name="name" placeholder="Service Name">
+                                <input type="text" class="form-control" name="name" value="${service.name}" placeholder="Service Name">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Description</label>
-                                <input type="text" class="form-control" name="description" placeholder="Service Detail">
+                                <input type="text" class="form-control" name="description" value="${service.description}" placeholder="Service Detail">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label ">Price</label>
-                                <input type="text" class="form-control" name="price" placeholder="Price Needed">
+                                <input type="text" class="form-control" name="price" value="${service.price}" placeholder="Price Needed">
                             </div>
                                 <button type="submit" class="btn btn-success">Save</button>
                                 <button type="reset" class="btn btn-success">Cancel</button>

@@ -150,7 +150,7 @@ public class CustomerServlet extends HttpServlet {
     private void listPetShopById(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         PetShop pets = petshopDAO.selectPetshop(id);
-        List<Service> service = petshopDAO.selectAllService2(id);
+        List<Service> service = petshopDAO.selectAllServiceByShopId(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("petshoppage.jsp");
         request.setAttribute("pet", pets);
         request.setAttribute("service", service);

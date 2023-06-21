@@ -89,54 +89,13 @@
         </style>
     </head>
     <body>
-         <div class="sidebar">
-            <nav id="sidebar">
-                <div class="sidebar-header">
-                    <img src="Image/pet grab.png" alt="Logo" class="rounded-circle" width="50px"><!-- Logo -->
-                    <a href="#">
-                        <strong>Pet Grab</strong>
-                    </a>
-                </div>
-                <ul class="list-unstyled components">
-                    <li>
-                        <a href="vendorMain.jsp">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="VendorServlet?action=edit">
-                            <i class="fas fa-user"></i>
-                            <span class="nav-text">Account</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="VendorServlet?action=showOrder">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                            <span class="nav-text">Order</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="VendorServlet?action=showService&shopid=${petsessionid}">
-                            <i class="fas fa-file-alt"></i>
-                            <span class="nav-text">Service</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="DriverController?action=logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span class="nav-text">Sign Out</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+         <jsp:include page="vendorSidebar.jsp"/>
         
         <br><br>
         <!-- Start Content -->
         <div class="container">
             <div class="card">
-                <a href='ServiceServlet?action=new&shopid=${shopid}'>Add New Service</a>
+                <a href='VendorServlet?action=createServiceForm&shopid=${shopid}'>Add New Service</a>
                 <div class="card-body col-md-6">
                     <table class="table table-bordered">
                     <thead>
@@ -163,8 +122,8 @@
                                 <td>
                                     <c:out value="${services.price}"/> &nbsp;&nbsp;
                                 </td>
-                                <td><a href="ServiceServlet?action=edit&serviceid=${services.id}" class="btn btn-warning">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp;<!-- comment -->
-                                    <a href="ServiceServlet?action=delete&serviceid=${services.id}" class="btn btn-secondary">Delete</a>
+                                <td><a href="VendorServlet?action=editservice&serviceid=${services.serviceid}&shopid=${services.shopid}" class="btn btn-warning">Edit</a> &nbsp;&nbsp;&nbsp;&nbsp;<!-- comment -->
+                                    <a href="VendorServlet?action=deleteservice&serviceid=${services.serviceid}&shopid=${services.shopid}" class="btn btn-secondary">Delete</a>
                                 </td>
                             </tr>
                         </c:forEach>

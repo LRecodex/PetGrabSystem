@@ -90,48 +90,7 @@
     </head>
     <body>
         <!-- Sidebar -->
-        <div class="sidebar">
-            <nav id="sidebar">
-                <div class="sidebar-header">
-                    <img src="Image/pet grab.png" alt="Logo" class="rounded-circle" width="50px"><!-- Logo -->
-                    <a href="#">
-                        <strong>Pet Grab</strong>
-                    </a>
-                </div>
-                <ul class="list-unstyled components">
-                    <li>
-                        <a href="vendorMain.jsp">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span class="nav-text">Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="VendorServlet?action=edit">
-                            <i class="fas fa-user"></i>
-                            <span class="nav-text">Account</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="VendorServlet?action=showOrder">
-                            <i class="fas fa-file-invoice-dollar"></i>
-                            <span class="nav-text">Order</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="VendorServlet?action=showService&shopid=${petsessionid}">
-                            <i class="fas fa-file-alt"></i>
-                            <span class="nav-text">Service</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="DriverController?action=logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span class="nav-text">Sign Out</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <jsp:include page="vendorSidebar.jsp"/>
         <div class="page-content">
             <div class="container-fluid">
                 <h1><img src="Image/pet grab.png" alt="Logo" class="rounded-circle" width="70px">&nbsp; Pet Grab Vendor</h1><hr>

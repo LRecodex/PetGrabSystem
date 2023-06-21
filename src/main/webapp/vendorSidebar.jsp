@@ -1,17 +1,16 @@
 <%-- 
-    Document   : DriverNavbar
-    Created on : 18 Jun 2023, 11:42:51 pm
-    Author     : MUHAMMAD FAUZUL AZIM BIN IMRAN HAYAT
+    Document   : vendorSidebar
+    Created on : 21 Jun 2023, 6:09:53 pm
+    Author     : yoonj
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Pet Grab Driver</title>
-
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Vendor Page</title>
+        
         <!-- Google Font: Source Sans Pro -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
         <!-- Font Awesome -->
@@ -31,7 +30,7 @@
                 position: fixed;
                 top: 0;
                 left: 0;
-                background-color: #f5f5f5;
+                background-color: yellow;
                 overflow-x: hidden;
                 padding-top: 20px;
                 transition: width 0.3s;
@@ -39,6 +38,7 @@
 
             .sidebar:hover {
                 width: 280px;
+                
             }
 
             .sidebar-header {
@@ -73,7 +73,7 @@
             }
 
             .sidebar ul li a:hover {
-                background-color: #ebebeb;
+                background-color: yellowgreen;
                 color: #333;
             }
 
@@ -88,8 +88,7 @@
         </style>
     </head>
     <body>
-        <!-- Sidebar -->
-        <div class="sidebar">
+      <div class="sidebar">
             <nav id="sidebar">
                 <div class="sidebar-header">
                     <img src="Image/pet grab.png" alt="Logo" class="rounded-circle" width="50px"><!-- Logo -->
@@ -99,24 +98,29 @@
                 </div>
                 <ul class="list-unstyled components">
                     <li>
-                        <a href="DriverMainpage.jsp">
+                        <a href="vendorMain.jsp">
                             <i class="fas fa-tachometer-alt"></i>
                             <span class="nav-text">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="DriverAccount.jsp">
+                        <a href="VendorServlet?action=edit">
                             <i class="fas fa-user"></i>
                             <span class="nav-text">Account</span>
                         </a>
                     </li>
                     <li>
-                        <a href="DriverController?action=order">
+                        <a href="VendorServlet?action=showOrder">
                             <i class="fas fa-file-invoice-dollar"></i>
                             <span class="nav-text">Order</span>
                         </a>
                     </li>
-                    
+                    <li>
+                        <a href="VendorServlet?action=showListServiceByShopId&shopid=${petsessionid}">
+                            <i class="fas fa-file-alt"></i>
+                            <span class="nav-text">Service</span>
+                        </a>
+                    </li>
                     <li>
                         <a href="DriverController?action=logout">
                             <i class="fas fa-sign-out-alt"></i>
@@ -126,15 +130,5 @@
                 </ul>
             </nav>
         </div>
-        <!-- Scripts -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#sidebarCollapse').on('click', function () {
-                    $('.sidebar').toggleClass('active');
-                });
-            });
-        </script>
     </body>
 </html>

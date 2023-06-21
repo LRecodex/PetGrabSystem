@@ -12,58 +12,45 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Shop</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <style>
+            .card-body{
+                margin: 5%;
+            }
+            .card{
 
+                margin-bottom: 5%;
+            }
+            .clr{
+                padding: 5%;
+                background-color: #555;
+            }
+        </style>
     </head>
     <body>
         <jsp:include page="navbar.jsp"/>
         <br><br>
-        <section id="portfolio-details" class="portfolio-details">
-            <div class="container">
 
-                <div class="row gy-4">
-
-                    <div class="col-lg-8">
-                        <div class="portfolio-details-slider swiper">
-                            <div class="swiper-wrapper align-items-center">
-                                <div class="swiper-slide">
-                                    
-                                </div>
-                            </div>                           
-                        </div>
-                    </div>
-
-                    <div class="col-lg-4">
-                        <div class="portfolio-info">
-                            <h3><c:out value='${pet.shopname}'/></h3>
-                            <p><c:out value='${pet.shopaddress}'/></p>
-
-                            <p></p>
-
-                            <hr>
-
-                            <hr>
-
-                            <p><strong>Service</strong></p>        
-                            <ul>
-                                <c:forEach var="serv" items="${service}">
-                                    <li> <c:out value="${serv.description}"/>&nbsp;&nbsp;&nbsp;&nbsp;RM<c:out value="${serv.price}"/></li>
-                                    </c:forEach>
-                            </ul>
-                        </div>
-                        <div class="portfolio-description">
+        <div class="container">
+            <div class="card clr">
+                <div class="row">  
+                    <h3><c:out value='${pet.shopname}'/></h3>
+                    <h4><c:out value='${pet.shopaddress}'/></h4>
+                    <ul>
+                        <div class="card">
+                            <c:forEach var="serv" items="${service}">
+                                <li> <c:out value="${serv.description}"/>&nbsp;&nbsp;&nbsp;&nbsp;RM<c:out value="${serv.price}"/></li>
+                                </c:forEach>
                             <p>Contact Shop : <c:out value='${pet.phonenum}'/></p>
                         </div>
-                            <c:if test="${customersessionid !=null}">
+                        <c:if test="${customersessionid !=null}">
                             <a href="CustomerServlet?action=showBookForm&shopid=<c:out value='${pet.shopid}'/>" class="btn btn-primary btn-lg">Book Now</a>
-                            </c:if>
-                            <c:if test="${customersessionid ==null}">
+                        </c:if>
+                        <c:if test="${customersessionid ==null}">
                             <a href="customerLogin.jsp" class="btn btn-primary btn-lg">Log In to Book Order</a>
-                            </c:if>
-                    </div>
-
+                        </c:if>
+                    </ul>
                 </div>
-
-            </div>
-        </section>
+            </div>                           
+        </div>
     </body>
 </html>

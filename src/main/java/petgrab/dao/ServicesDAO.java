@@ -18,17 +18,18 @@ import java.util.List;
  * @author Hp
  */
 public class ServicesDAO {
+
     private final String jdbcURL = "jdbc:mysql://localhost:3306/petgrabsystem";
     private final String jdbcUsername = "root";
     private final String jdbcPassword = "admin";
 
-    private static final String INSERT_SERVICES_SQL = "INSERT INTO service(shopid,name,description,price) values(?,?,?,?);";
+    private static final String INSERT_SERVICES_SQL = "INSERT INTO service(shopid,name,description,price) values(?,?,?,?)";
     private static final String SELECT_SERVICES_SQL_BY_ID = "SELECT * FROM service where serviceid=?;";
-    private static final String SELECT_ALL_SERVICES_SQL_BY_VENDORID = "SELECT * FROM service where shopid=?;";    
+    private static final String SELECT_ALL_SERVICE = "SELECT * FROM service WHERE shopid=?";
     private static final String SELECT_ALL_SERVICES_SQL = "SELECT * FROM service;";
-    private static final String DELETE_SERVICES_SQL = "delete from service where serviceid=?;";
+    private static final String DELETE_SERVICES_SQL = "delete from service where serviceid=?";
     private static final String UPDATE_SERVICES_SQL = "update service set shopid=?,name=?,description=? price=? where serviceid=?;";
-    
+
     public ServicesDAO() {
     }
 
@@ -57,49 +58,27 @@ public class ServicesDAO {
         }
     }
 
-    public Service selectService(int id) {
-        Service service = null;
+   public List<Service> selectAllService2(int id) {
+        List<Service> ser = new ArrayList<>();
 
-        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_SERVICES_SQL_BY_ID)) {
-            ps.setInt(1, id);
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SERVICE);) {
             System.out.println(ps);
+            ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                int vendorId = rs.getInt("vendorId");
+                
+                int serviceid = rs.getInt("serviceid");
                 String name = rs.getString("name");
                 String description = rs.getString("description");
                 double price = rs.getDouble("price");
-               
-                service = new Service(vendorId,name,description,price);
-            }
 
+                ser.add(new Service(serviceid, id, name,description, price));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return service;
-    }
-
-    
-    public List<Service> selectAllServicesByVendorID(int vendorId) {
-        List<Service> services = new ArrayList<>();
-
-        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SERVICES_SQL_BY_VENDORID);) {
-            ps.setInt(1, vendorId);
-            System.out.println(ps);
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                String description = rs.getString("description");
-                double price = rs.getDouble("price");
-                services.add(new Service(id,vendorId,name,description,price));
-            }
-        } catch (SQLException e) {
-            printSQLException(e);
-        }
-        return services;
+        return ser;
     }
 
     public List<Service> selectAllService() {
@@ -112,10 +91,10 @@ public class ServicesDAO {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 int vendorId = rs.getInt("vendorId");
-                 String name = rs.getString("name");
+                String name = rs.getString("name");
                 String description = rs.getString("description");
                 double price = rs.getDouble("price");
-                services.add(new Service(id,vendorId,name,description,price));
+                services.add(new Service(id, vendorId, name, description, price));
             }
         } catch (SQLException e) {
             printSQLException(e);

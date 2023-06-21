@@ -52,7 +52,7 @@
                             <c:forEach var="order" items="${list}">
                                 <%-- Add your table data here --%>
                                 <tr>
-                                    td><c:out value="${order.orderid}" /></td>
+                                    <td><c:out value="${order.orderid}" /></td>
                                     <td><c:out value="${order.custid}" /></td>
                                     <td><c:out value="${order.driverid}" /></td>
                                     <td><c:out value="${order.shopid}" /></td>

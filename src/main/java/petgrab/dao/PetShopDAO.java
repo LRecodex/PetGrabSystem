@@ -19,16 +19,21 @@ public class PetShopDAO {
     private String jdbcUsername = "root";
     private String jdbcPassword = "admin";
     private static final String INSERT_PETSHOP_SQL = "INSERT INTO petshop(username,password,shopname,shopaddress,phonenum) VALUES (?,?,?,?,?)";
+     private static final String INSERT_SERVICE_SQL = "INSERT INTO service(shopid,name,description,price) VALUES (?,?,?,?)";
     private static final String SELECT_PETSHOP_BY_ID = "SELECT * FROM petshop WHERE shopid=?";
     private static final String SELECT_PETSHOP_BY_UN_PW = "SELECT * FROM petshop WHERE username=? AND password=?";
     private static final String SELECT_ALL_PETSHOP = "SELECT * FROM petshop";
+    private static final String SELECT_ALL_SERVICE = "SELECT * FROM service";
     private static final String SELECT_ALL_ORDER_SHOPID = "SELECT * FROM orders WHERE shopid=?";
-    private static final String SELECT_ALL_SERVICE = "SELECT * FROM service WHERE shopid=?";
+    private static final String SELECT_ALL_SERVICE_BY_SERVICEID = "SELECT * FROM service WHERE serviceid=?";
+    private static final String SELECT_ALL_SERVICE_BY_SHOPID = "SELECT * FROM service WHERE shopid=?";
     private static final String SELECT_ALL_ORDER="SELECT * FROM orders";
     private static final String UPDATE_PETSHOP_SQL = "UPDATE petshop SET username=?,password=?,shopname=?,shopaddress=?,phonenum=? WHERE shopid=?";
+    private static final String UPDATE_SERVICE_SQL_BY_SERVICEID = "UPDATE service SET shopid=? ,name=?,description=?,price=? WHERE serviceid=?";
     private static final String UPDATE_STATUS_ACCEPT = "UPDATE orders SET status='Waiting for driver...'  WHERE orderid=?";
     private static final String UPDATE_STATUS_DECLINE = "UPDATE orders SET status='Declined'  WHERE orderid=?";
     private static final String DELETE_PETSHOP_SQL = "DELETE FROM petshop where id=?";
+    
     
 
     protected Connection getConnection() {
@@ -159,6 +164,18 @@ public class PetShopDAO {
             e.printStackTrace();
         }
     }
+    public void insertService(Service ser) {
+
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(INSERT_SERVICE_SQL)) {
+            ps.setInt(1, ser.getShopid());
+            ps.setString(2, ser.getName());
+            ps.setString(3, ser.getDescription());
+            ps.setDouble(4, ser.getPrice());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void update(PetShop petShop) {
 
@@ -169,6 +186,19 @@ public class PetShopDAO {
             ps.setString(4, petShop.getShopaddress());
             ps.setString(5, petShop.getPhonenum());           
             ps.setInt(6, petShop.getShopid());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateService(Service ser) {
+
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(UPDATE_SERVICE_SQL_BY_SERVICEID )) {
+            ps.setInt(1, ser.getShopid());
+            ps.setString(2, ser.getName());
+            ps.setString(3, ser.getDescription());
+            ps.setDouble(4,ser.getPrice());
+            ps.setInt(5, ser.getServiceid());
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -221,10 +251,33 @@ public class PetShopDAO {
         return pet;
     }
 
-    public List<Service> selectAllService2(int id) {
+    public List<Service> selectAllServiceByShopId(int id) {
         List<Service> ser = new ArrayList<>();
 
-        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SERVICE);) {
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SERVICE_BY_SHOPID);) {
+            System.out.println(ps);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                
+                int serviceid = rs.getInt("serviceid");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                double price = rs.getDouble("price");
+
+                ser.add(new Service(serviceid, id, name,description, price));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return ser;
+    }
+
+     public List<Service> selectAllServiceByServiceId(int id) {
+        List<Service> ser = new ArrayList<>();
+
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SERVICE_BY_SERVICEID);) {
             System.out.println(ps);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -243,11 +296,10 @@ public class PetShopDAO {
         }
         return ser;
     }
-
     public Service selectAllService(int id) {
         Service ser = null;
 
-        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SERVICE)) {
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(SELECT_ALL_SERVICE_BY_SERVICEID)) {
             ps.setInt(1, id);
             System.out.println(ps);
             ResultSet rs = ps.executeQuery();
