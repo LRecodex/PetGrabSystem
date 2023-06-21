@@ -14,7 +14,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.MultipartConfig;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -26,6 +31,7 @@ import petgrab.dao.PetShopDAO;
  * @author MUHAMMAD FAUZUL AZIM BIN IMRAN HAYAT
  */
 @WebServlet("/DriverController/")
+@MultipartConfig
 public class DriverController extends HttpServlet {
 
     private DriverDAO dao;
@@ -51,7 +57,7 @@ public class DriverController extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        System.out.println(request.getServletPath());
+
         try {
             switch (action) {
                 case "insert":
@@ -75,11 +81,17 @@ public class DriverController extends HttpServlet {
                 case "order":
                     listOrder(request, response);
                     break;
-                    case "accept":
+                case "accept":
                     acceptOrder(request, response);
                     break;
-                    case "decline":
+                case "decline":
                     declineOrder(request, response);
+                    break;
+                case "delivered":
+                    orderDelivered(request, response);
+                    break;
+                case "addproof":
+                    addpic(request, response);
                     break;
                 default:
                     viewList(request, response);
@@ -103,21 +115,45 @@ public class DriverController extends HttpServlet {
             throws ServletException, IOException {
         doGet(request, response);
     }
+
+    private void addpic(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        String orderidParam = request.getParameter("orderid");
+        
+        if (orderidParam != null && !orderidParam.isEmpty()) {
+            int orderid = Integer.parseInt(orderidParam);
+
+            Part filePart = request.getPart("file");
+            InputStream fileContent = filePart.getInputStream();
+            byte[] fileData = fileContent.readAllBytes();
+            dao.addProof(fileData, orderid);
+        }
+
+        listOrder(request, response);
+    }
+
+    private void orderDelivered(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        int orderid = Integer.parseInt(request.getParameter("orderid"));
+        dao.deliveredOrder(orderid);
+        listOrder(request, response);
+    }
+
     private void acceptOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int orderid = Integer.parseInt(request.getParameter("orderid"));
         int driverid = Integer.parseInt(request.getParameter("driverid"));
-        dao.acceptOrder(orderid,driverid);
-        listOrder(request,response);
+        dao.acceptOrder(driverid, orderid);
+        listOrder(request, response);
     }
+
     private void declineOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         int orderid = Integer.parseInt(request.getParameter("orderid"));
         petShopDAO.declineOrder(orderid);
-        listOrder(request,response);
+        listOrder(request, response);
     }
+
     public void listOrder(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
-        Driver dr= (Driver)session.getAttribute("account");
+        Driver dr = (Driver) session.getAttribute("account");
         request.setAttribute("sesi", dr);
         List<Order> listOrder = petShopDAO.selectAllOrder();
         request.setAttribute("list", listOrder);

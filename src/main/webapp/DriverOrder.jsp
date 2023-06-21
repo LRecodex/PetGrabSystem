@@ -6,6 +6,8 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.Base64"%>
+<%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -71,25 +73,53 @@
                     <tbody>
                         <%-- Add your table data here --%>
                         <c:forEach var="order" items="${list}">
-                        <%-- Add your table data here --%>
-                        <tr>
-                            <td><c:out value="${order.orderid}"/></td>
-                            <td><c:out value="${order.custid}"/></td>
-                            <td><c:out value="${order.driverid}"/></td>
-                            <td><c:out value="${order.shopid}"/></td>
-                            <td><c:out value="${order.petname}"/></td>
-                            <td><c:out value="${order.petage}"/></td>
-                            <td><c:out value="${order.petgender}"/></td>
-                            <td><c:out value="${order.purposeofvisit}"/></td>
-                            <td><c:out value="${order.time}"/></td>
-                            <td><c:out value="${order.date}"/></td>
-                            <td><c:out value="${order.status}"/></td>
-                            <td><img src="path_to_image.jpg" alt="Pet Picture" width="100"></td>
-                            <td><a href="DriverController?action=accept&orderid=<c:out value='${order.orderid}'/>&driverid=<c:out value='${sesi.driverid}'/>" >Accept</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <a href="DriverController?action=decline&orderid=<c:out value='${order.orderid}'/>" >Decline</a></td>
-                        </tr>
+                            <tr>
+                                <td><c:out value="${order.orderid}" /></td>
+                                <td><c:out value="${order.custid}" /></td>
+                                <td><c:out value="${order.driverid}" /></td>
+                                <td><c:out value="${order.shopid}" /></td>
+                                <td><c:out value="${order.petname}" /></td>
+                                <td><c:out value="${order.petage}" /></td>
+                                <td><c:out value="${order.petgender}" /></td>
+                                <td><c:out value="${order.purposeofvisit}" /></td>
+                                <td><c:out value="${order.time}" /></td>
+                                <td><c:out value="${order.date}" /></td>
+                                <td><c:out value="${order.status}" /></td>
+                                <td>
+                                    <c:set var="base64Picture" value="${order.getBase64Picture()}"/>
+                                    <c:if test="${not empty base64Picture}">
+                                        <img src="data:image/png;base64,${base64Picture}" width="100" height="100" />
+                                    </c:if>
+                                </td>
+                                <td id="action-${order.orderid}">
+                                    <c:choose>
+                                        <c:when test="${order.status eq 'Delivered'}">
+                                            <form enctype="multipart/form-data" action="DriverController?action=addproof" method="post">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" name="orderid" value="<c:out value="${order.orderid}"/>" readonly>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="fileInput-${order.orderid}">Choose a file:</label>
+                                                    <input type="file" class="form-control-file" id="fileInput-${order.orderid}" name="file" required>
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </form> 
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:choose>
+                                                <c:when test="${order.status eq 'Accepted'}">
+                                                    <a href="DriverController?action=delivered&orderid=${order.orderid}&driverid=${sesi.driverid}" class="btn btn-success">Delivered</a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a href="DriverController?action=accept&orderid=${order.orderid}&driverid=${sesi.driverid}" class="btn btn-primary">Accept</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                            </tr>
                         </c:forEach>
-                        
+
                     </tbody>
                 </table>
             </div>

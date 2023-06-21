@@ -64,7 +64,7 @@ public class CustomerDAO {
                 String time = rs.getString("time");
                 String date = rs.getString("date");
                 String status = rs.getString("status");
-                byte picture = rs.getByte("picture");
+                byte[] picture = rs.getBytes("picture");
                 orders.add(new Order(orderid,custid, driverid, shopid, petname, petage,petgender,purposeofvisit,time,date,status,picture));
                 
             }

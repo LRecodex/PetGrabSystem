@@ -1,5 +1,7 @@
 package com.model;
 
+import java.util.Base64;
+
 public class Order {
 
     private int orderid;
@@ -13,13 +15,13 @@ public class Order {
     private String time;
     private String date;
     private String status;
-    private byte picture;
+    private byte[] picture;
 
     public Order() {
 
     }
 
-    public Order(int orderid, int custid, int driverid, int shopid, String petname, String petage, String petgender, String purposeofvisit, String time, String date, String status, byte picture) {
+    public Order(int orderid, int custid, int driverid, int shopid, String petname, String petage, String petgender, String purposeofvisit, String time, String date, String status, byte[] picture) {
         this.orderid = orderid;
         this.custid = custid;
         this.driverid = driverid;
@@ -34,7 +36,6 @@ public class Order {
         this.picture = picture;
     }
 
-    
     public Order(int custid, int shopid, String petname, String petage, String petgender, String purposeofvisit, String time, String date, String status) {
         this.custid = custid;
         this.shopid = shopid;
@@ -45,25 +46,9 @@ public class Order {
         this.time = time;
         this.date = date;
         this.status = status;
-
     }
 
-    public Order( int custid, int driverid, int shopid, String petname, String petage, String petgender, String purposeofvisit,String time,String date,String status, byte picture) {
-        
-        this.custid = custid;
-        this.driverid = driverid;
-        this.shopid = shopid;
-        this.petname = petname;
-        this.petage = petage;
-        this.petgender = petgender;
-        this.purposeofvisit = purposeofvisit;
-        this.time = time;
-        this.date = date;
-        this.status = status;
-        this.picture = picture;
-    }
-    public Order(int orderid, int custid, int driverid, int shopid, String petname, String petage, String petgender, String purposeofvisit, String status, byte picture) {
-        this.orderid = orderid;
+    public Order(int custid, int driverid, int shopid, String petname, String petage, String petgender, String purposeofvisit, String time, String date, String status, byte[] picture) {
         this.custid = custid;
         this.driverid = driverid;
         this.shopid = shopid;
@@ -77,21 +62,7 @@ public class Order {
         this.picture = picture;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
+    // Getters and Setters
 
     public int getOrderid() {
         return orderid;
@@ -157,6 +128,22 @@ public class Order {
         this.purposeofvisit = purposeofvisit;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -165,12 +152,19 @@ public class Order {
         this.status = status;
     }
 
-    public byte getPicture() {
+    public byte[] getPicture() {
         return picture;
     }
 
-    public void setPicture(byte picture) {
+    public void setPicture(byte[] picture) {
         this.picture = picture;
     }
-
+    
+    public String getBase64Picture() {
+        if (picture != null) {
+            return Base64.getEncoder().encodeToString(picture);
+        }
+        return null;
+    }
+    
 }

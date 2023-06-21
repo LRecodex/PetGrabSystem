@@ -33,8 +33,9 @@ public class DriverDAO {
     private final String SELECT_BY_ID = "SELECT * FROM driver WHERE driverid=?";
     private final String SELECT_ALL_DRIVER = "SELECT * FROM driver";
     private final String VERIFY_LOGIN = "SELECT * FROM driver WHERE username = ? AND password = ?";
-    private static final String UPDATE_STATUS_ACCEPT = "UPDATE orders SET status='Order Accepted',driverid=?  WHERE orderid=?";
-    private static final String UPDATE_STATUS_DECLINE = "UPDATE orders SET status='Declined'  WHERE orderid=?";
+    private final String UPDATE_STATUS_ACCEPT = "UPDATE orders SET status='Accepted', driverid=? WHERE orderid=?";
+    private final String UPDATE_STATUS_DELIVERED = "UPDATE orders SET status='Delivered'  WHERE orderid=?";
+    private final String ADD_PIC_PROOF = "UPDATE orders set picture=? where orderid=?";
 
     //Create Connection
     public Connection getConnection() {
@@ -47,7 +48,17 @@ public class DriverDAO {
         }
         return con;
     }
-
+    
+    public void addProof(byte[] filedata ,int orderid){
+        try (Connection con = getConnection(); PreparedStatement statement = con.prepareStatement(ADD_PIC_PROOF)) {
+            statement.setBytes(1, filedata);
+            statement.setInt(2, orderid);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public void acceptOrder(int driverid,int orderid) {
         try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(UPDATE_STATUS_ACCEPT)) {                      
             ps.setInt(1, driverid);
@@ -57,8 +68,8 @@ public class DriverDAO {
             e.printStackTrace();
         }
     }
-     public void declineOrder(int id) {
-        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(UPDATE_STATUS_DECLINE)) {           
+     public void deliveredOrder(int id) {
+        try (Connection connection = getConnection(); PreparedStatement ps = connection.prepareStatement(UPDATE_STATUS_DELIVERED)) {           
             ps.setInt(1, id);
             ps.executeUpdate();
         } catch (SQLException e) {
